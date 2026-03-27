@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JAMES.JOBS</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://unpkg.com/docx@8.5.0/build/index.umd.js"></script>
+<style>
+:root{--bg:#F2F0EB;--card:#fff;--card-h:#FAFAF7;--tx:#1A1A1A;--tx2:#5A5A56;--txm:#9A9A94;--or:#FF5500;--or-l:#FFF0E8;--bd:#D4D2CC;--bk:#1A1A1A;--gn:#00AA44;--gn-bg:#E6F7ED;--am:#DD8800;--am-bg:#FFF5E0;--rd:#DD2222;--rd-bg:#FFECEC;--r:12px;--bw:2px;--mono:'Space Mono',monospace;--sans:'Space Grotesk',sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--sans);background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased}
+nav{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:var(--bw) solid var(--bk);padding:12px 24px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:var(--mono);font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:2px;display:flex;align-items:center;gap:10px}
+.dot{width:10px;height:10px;background:var(--or);border-radius:50%;display:inline-block}
+.nav-links{display:flex;gap:6px}
+.nav-btn{background:none;border:var(--bw) solid transparent;border-radius:100px;cursor:pointer;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--txm);letter-spacing:1px;text-transform:uppercase;padding:8px 18px;transition:all .15s}
+.nav-btn:hover{color:var(--tx);border-color:var(--bd)}
+.nav-btn.active{color:#fff;background:var(--or);border-color:var(--or)}
+main{max-width:1080px;margin:0 auto;padding:40px 24px}
+.mod-label{font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--txm);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.num{font-family:var(--mono);font-size:10px;font-weight:700;background:var(--bk);color:var(--bg);padding:2px 6px;border-radius:3px;letter-spacing:0}
+.num.or{background:var(--or);color:#fff}
+
+/* HOME */
+.hero{text-align:center;padding:48px 0 40px}
+.hero h1{font-size:52px;font-weight:700;letter-spacing:-2px;margin-bottom:12px;line-height:1.05}
+.hero h1 .o{color:var(--or)}
+.hero p{font-size:15px;color:var(--tx2);max-width:440px;margin:0 auto 40px;line-height:1.7}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:40px}
+.stat{background:var(--card);border:var(--bw) solid var(--bk);border-radius:var(--r);padding:18px 16px;text-align:center}
+.stat-v{font-family:var(--mono);font-size:28px;font-weight:700;color:var(--or)}
+.stat-l{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--txm);margin-top:4px}
+.cats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.cat{background:var(--card);border:var(--bw) solid var(--bk);border-radius:var(--r);padding:24px 20px;cursor:pointer;transition:all .15s}
+.cat:hover{background:var(--or);color:#fff;border-color:var(--or)}
+.cat:hover p{color:rgba(255,255,255,.8)}.cat:hover .cat-ct{color:#fff}
+.cat:hover .cat-n{background:#fff;color:var(--or)}
+.cat:hover svg path,.cat:hover svg line,.cat:hover svg rect,.cat:hover svg circle{stroke:#fff !important}
+.cat-n{font-family:var(--mono);font-size:10px;font-weight:700;background:var(--or);color:#fff;padding:3px 8px;border-radius:4px;display:inline-block;margin-bottom:14px;letter-spacing:1px}
+.cat h3{font-size:20px;font-weight:700;margin-bottom:8px;letter-spacing:-.5px}
+.cat p{font-size:13px;color:var(--tx2);line-height:1.6;margin-bottom:16px}
+.cat-ct{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--or);text-transform:uppercase;letter-spacing:1px}
+
+/* LIST */
+.view-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;padding-bottom:16px;border-bottom:var(--bw) solid var(--bk)}
+.view-hdr h2{font-size:28px;font-weight:700;letter-spacing:-1px}
+.view-hdr h2 .o{color:var(--or)}
+.back{background:var(--card);border:var(--bw) solid var(--bk);border-radius:100px;padding:8px 18px;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--tx);cursor:pointer;transition:all .15s;text-transform:uppercase;letter-spacing:1px}
+.back:hover{background:var(--or);color:#fff;border-color:var(--or)}
+.jlist{display:flex;flex-direction:column;gap:6px}
+.jcard{background:var(--card);border:var(--bw) solid var(--bk);border-radius:var(--r);padding:18px 20px;display:grid;grid-template-columns:56px 1fr auto;gap:18px;align-items:center;cursor:pointer;transition:all .15s}
+.jcard:hover{border-color:var(--or);box-shadow:4px 4px 0 var(--or);transform:translate(-2px,-2px)}
+.fs{width:52px;height:52px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:20px;font-weight:700;flex-shrink:0;border:var(--bw) solid}
+.fs-h{background:var(--gn-bg);color:var(--gn);border-color:var(--gn)}
+.fs-m{background:var(--am-bg);color:var(--am);border-color:var(--am)}
+.fs-l{background:var(--rd-bg);color:var(--rd);border-color:var(--rd)}
+.ji h4{font-size:15px;font-weight:700;margin-bottom:4px;letter-spacing:-.3px}
+.jm{font-size:13px;color:var(--tx2);display:flex;gap:14px;flex-wrap:wrap}
+.jm strong{color:var(--or)}
+.jtags{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}
+.tag{font-family:var(--mono);font-size:9px;font-weight:700;padding:4px 10px;border-radius:4px;text-transform:uppercase;letter-spacing:.8px;background:var(--bg);color:var(--tx2);border:1px solid var(--bd)}
+.tag-g{background:var(--gn-bg);color:var(--gn);border-color:rgba(0,170,68,.3)}
+.tag-r{background:var(--rd-bg);color:var(--rd);border-color:rgba(221,34,34,.3)}
+.jarr{font-family:var(--mono);color:var(--txm);font-size:16px;font-weight:700;transition:all .15s}
+.jcard:hover .jarr{color:var(--or);transform:translateX(4px)}
+
+/* TABS */
+.tabs{display:flex;gap:4px;margin-bottom:24px}
+.tab{background:var(--card);border:var(--bw) solid var(--bk);border-radius:100px;padding:10px 20px;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--txm);cursor:pointer;transition:all .15s;text-transform:uppercase;letter-spacing:.5px}
+.tab:hover{color:var(--tx)}.tab.active{background:var(--or);color:#fff;border-color:var(--or)}
+
+/* DETAIL */
+.dgrid{display:grid;grid-template-columns:1fr 340px;gap:16px}
+.dmain{display:flex;flex-direction:column;gap:12px}
+.dside{display:flex;flex-direction:column;gap:12px}
+.dsec{background:var(--card);border:var(--bw) solid var(--bk);border-radius:var(--r);padding:22px}
+.dsec h3{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--txm);margin-bottom:14px;font-weight:700;display:flex;align-items:center;gap:8px}
+.dsec p,.dsec li{font-size:14px;line-height:1.7;color:var(--tx2)}
+.dsec ul{padding-left:16px}.dsec li{margin-bottom:6px}
+.dh h2{font-size:24px;font-weight:700;margin-bottom:8px;line-height:1.3;letter-spacing:-.5px}
+.cl{font-size:14px;color:var(--tx2)}.cl strong{color:var(--or);font-weight:700}
+
+/* FIT */
+.fov{display:flex;align-items:center;gap:18px;margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--bd)}
+.fbig{width:68px;height:68px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:28px;font-weight:700;flex-shrink:0;border:var(--bw) solid}
+.ft h4{font-size:15px;font-weight:700;margin-bottom:2px}.ft p{font-size:12px;color:var(--txm)}
+.fbg{margin-bottom:12px}
+.fbl{display:flex;justify-content:space-between;margin-bottom:5px;font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px}
+.fbar{height:8px;background:var(--bg);border:1px solid var(--bd);border-radius:4px;overflow:hidden}
+.fbf{height:100%;border-radius:3px;transition:width .8s}
+.fbf-h{background:var(--gn)}.fbf-m{background:var(--am)}.fbf-l{background:var(--rd)}
+
+/* REFRESH BTN - bottom of page, acts as "water surface" */
+.refresh-section{position:relative;display:flex;flex-direction:column;align-items:center;margin:60px 0 20px;padding-top:20px;overflow:hidden}
+.astro-perch{position:relative;width:200px;height:200px;margin-bottom:-24px;z-index:2}
+.astro-perch img{width:100%;height:100%;object-fit:contain;animation:astroBob 3s ease-in-out infinite}
+@keyframes astroBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.refresh-btn{background:var(--card);border:var(--bw) solid var(--bk);border-radius:100px;padding:16px 40px;font-family:var(--mono);font-size:12px;font-weight:700;color:var(--tx);cursor:pointer;transition:all .15s;text-transform:uppercase;letter-spacing:1.5px;display:inline-flex;align-items:center;gap:10px;position:relative;z-index:3}
+.refresh-btn:hover{background:var(--or);color:#fff;border-color:var(--or);box-shadow:4px 4px 0 var(--bk)}
+.sea-surface{width:100%;height:4px;background:linear-gradient(90deg,transparent 10%,var(--or) 30%,var(--or) 70%,transparent 90%);opacity:0.25;margin-top:-2px;position:relative;z-index:1}
+.sea-depth{width:100%;height:120px;background:linear-gradient(180deg,rgba(255,85,0,0.06) 0%,transparent 100%);position:relative;z-index:0;margin-top:0}
+.refresh-btn:active{transform:translateY(4px);box-shadow:none}
+.refresh-btn.loading{pointer-events:none;opacity:.7}
+
+/* FISH OVERLAY */
+.fish-overlay{position:fixed;top:0;left:0;width:100%;height:100%;z-index:999;pointer-events:none;opacity:0;transition:opacity .3s}
+.fish-overlay.active{opacity:1;pointer-events:auto}
+.fish-canvas{width:100%;height:100%}
+
+/* IMPROVEMENT */
+.imp{background:var(--or);color:#fff;border:var(--bw) solid var(--or);border-radius:var(--r);padding:20px}
+.imp h3{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,.7);margin-bottom:14px;font-weight:700}
+.imp-arr{display:flex;align-items:center;gap:12px;margin-bottom:14px;font-family:var(--mono);font-size:28px;font-weight:700}
+.imp-arr .from{opacity:.6}.imp-arr .to{color:#fff}
+.imp ul{font-size:13px;color:rgba(255,255,255,.85);line-height:1.7;padding-left:16px}
+.imp li{margin-bottom:6px}
+.ibanner{background:var(--gn-bg);border:var(--bw) solid var(--gn);border-radius:var(--r);padding:14px 18px;display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--gn);text-transform:uppercase;letter-spacing:1px}
+
+/* COVER */
+.clprev{background:var(--card);border:var(--bw) solid var(--bk);border-radius:var(--r);padding:28px;font-size:14px;line-height:1.8;color:var(--tx2);white-space:pre-wrap}
+.clprev .gr{font-weight:700;color:var(--tx);margin-bottom:12px}
+.clprev .so{margin-top:16px;color:var(--tx);font-weight:600}
+
+/* BUTTONS */
+.btn-p{background:var(--bk);color:var(--card);border:var(--bw) solid var(--bk);border-radius:100px;padding:14px 24px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1px;cursor:pointer;transition:all .15s;text-transform:uppercase;width:100%;text-align:center;display:block;text-decoration:none}
+.btn-p:hover{background:var(--or);border-color:var(--or);color:#fff;box-shadow:3px 3px 0 var(--bk)}
+.btn-s{background:var(--card);color:var(--tx);border:var(--bw) solid var(--bk);border-radius:100px;padding:12px 20px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1px;cursor:pointer;transition:all .15s;text-transform:uppercase;width:100%}
+.btn-s:hover{background:var(--or);color:#fff;border-color:var(--or)}
+.btn-a{background:#fff;color:var(--or);border:var(--bw) solid #fff;border-radius:100px;padding:12px 20px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1px;cursor:pointer;transition:all .15s;text-transform:uppercase;width:100%}
+.btn-a:hover{background:var(--bk);color:#fff;border-color:var(--bk)}
+.dadd{font-family:var(--mono);font-size:10px;font-weight:700;background:var(--gn-bg);color:var(--gn);padding:3px 8px;border-radius:3px;text-transform:uppercase;letter-spacing:.5px}
+.warn{display:flex;align-items:flex-start;gap:10px;background:var(--rd-bg);border:var(--bw) solid var(--rd);border-radius:var(--r);padding:14px 16px;font-size:13px;color:var(--rd);line-height:1.5}
+.warn-i{font-family:var(--mono);font-size:11px;font-weight:700;background:var(--rd);color:#fff;padding:2px 7px;border-radius:3px;flex-shrink:0}
+.sub{font-family:var(--mono);font-size:10px;color:var(--txm);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+@media(max-width:768px){.cats{grid-template-columns:1fr}.dgrid{grid-template-columns:1fr}.hero h1{font-size:32px}.stats{grid-template-columns:repeat(2,1fr)}main{padding:24px 16px}nav{padding:10px 16px}}
+@keyframes fu{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}.fi{animation:fu .3s ease forwards}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo"><span class="dot"></span>JAMES.JOBS</div>
+  <div class="nav-links">
+    <button class="nav-btn active" id="nav-dash" onclick="go('home')">Dashboard</button>
+    <button class="nav-btn" id="nav-all" onclick="go('list-all')">All Jobs</button>
+  </div>
+</nav>
+<div class="fish-overlay" id="fishOverlay"><canvas class="fish-canvas" id="fishCanvas"></canvas></div>
+<main id="app"></main>
+
+<script>
+// ============ DIAMOND SVG HELPERS ============
+function dia(s,v){
+  s=s||28;v=(v||0)%4;var c='#FF5500';
+  var d=[
+    '<svg width="'+s+'" height="'+s+'" viewBox="0 0 28 28" fill="none"><path d="M14 2L26 14L14 26L2 14Z" stroke="'+c+'" stroke-width="2"/><path d="M14 8L20 14L14 20L8 14Z" stroke="'+c+'" stroke-width="1.5" opacity="0.4"/></svg>',
+    '<svg width="'+s+'" height="'+s+'" viewBox="0 0 28 28" fill="none"><path d="M14 2L26 14L14 26L2 14Z" stroke="'+c+'" stroke-width="2"/><line x1="14" y1="2" x2="14" y2="26" stroke="'+c+'" stroke-width="1.5" opacity="0.35"/><line x1="2" y1="14" x2="26" y2="14" stroke="'+c+'" stroke-width="1.5" opacity="0.35"/></svg>',
+    '<svg width="'+s+'" height="'+s+'" viewBox="0 0 28 28" fill="none"><path d="M14 1L27 14L14 27L1 14Z" stroke="'+c+'" stroke-width="2"/><path d="M14 7L21 14L14 21L7 14Z" stroke="'+c+'" stroke-width="1.5"/><rect x="12" y="12" width="4" height="4" transform="rotate(45 14 14)" stroke="'+c+'" stroke-width="1" opacity="0.5"/></svg>',
+    '<svg width="'+s+'" height="'+s+'" viewBox="0 0 28 28" fill="none"><path d="M14 2L26 14L14 26L2 14Z" stroke="'+c+'" stroke-width="2"/><line x1="7" y1="9" x2="21" y2="9" stroke="'+c+'" stroke-width="1" opacity="0.25"/><line x1="5" y1="12" x2="23" y2="12" stroke="'+c+'" stroke-width="1" opacity="0.25"/><line x1="5" y1="16" x2="23" y2="16" stroke="'+c+'" stroke-width="1" opacity="0.25"/><line x1="7" y1="19" x2="21" y2="19" stroke="'+c+'" stroke-width="1" opacity="0.25"/></svg>'
+  ];
+  return d[v];
+}
+var heroSvg='<svg width="100" height="100" viewBox="0 0 100 100" fill="none"><path d="M50 5L95 50L50 95L5 50Z" stroke="#FF5500" stroke-width="2"/><path d="M50 20L80 50L50 80L20 50Z" stroke="#FF5500" stroke-width="2" opacity="0.5"/><path d="M50 35L65 50L50 65L35 50Z" stroke="#FF5500" stroke-width="2" opacity="0.25"/><line x1="5" y1="50" x2="95" y2="50" stroke="#FF5500" stroke-width="1" opacity="0.15"/><line x1="50" y1="5" x2="50" y2="95" stroke="#FF5500" stroke-width="1" opacity="0.15"/><circle cx="50" cy="50" r="3" fill="#FF5500"/></svg>';
+
+// ============ DATA ============
+var RES={
+  summary:"Account manager and operations generalist with 7+ years of stepping into messy, undefined situations and building systems that actually work. Managing client relationships, CRM overhauls, international recruitment campaigns, and customer onboarding across education, healthcare, and retail. Best at walking into a room, quickly understanding what's broken, and connecting dots others haven't spotted yet. Native English speaker with cross-cultural experience across Australia, Southeast Asia, and Europe. Based in Berlin.",
+  exp:[
+    {t:"Customer Experience & Operations Lead",c:"lululemon, Berlin",p:"2024 - Present",b:["Promoted from part-time Educator to Back-of-House Lead in 9 months based on operational impact","Took ownership of a 2,900-unit replenishment backlog and reduced it to under 50 in 3 weeks through process redesign","Built Power BI dashboards to track store KPIs, giving the team visibility into operational performance for the first time","Led customer experience on the floor through needs discovery, product education, and community activations"]},
+    {t:"CRM & Customer Lifecycle Specialist",c:"Lohmann & Rauscher (B2B Healthcare)",p:"2023 - 2024",b:['Led "Project Clean": a full CRM overhaul in Dynamics 365 that lifted customer engagement by 34% through improved segmentation and data hygiene',"Reduced CRM input time by 5x (10 min to 2 min per entry), driving ~60% increase in sales team adoption","Onboarded and trained cross-functional staff on new digital workflows and systems","Reported to Commercial Director, supporting the full ANZ B2B healthcare region"]},
+    {t:"Regional Account Manager (Southeast Asia)",c:"La Trobe University",p:"2021 - 2022",b:["Managed 25 agent relationships across 7 countries, owning a $320k budget and full Salesforce pipeline","Built end-to-end student care processes during COVID that increased retention and sense of belonging","Delivered 140% YoY enrolment growth across 14 international recruitment events"]}
+  ],
+  earlier:"Schiavello / Enliven (2020-2021): B2B content and communications. Increased email engagement by 28% across campaigns reaching 50k+ audiences. | RMIT University (2019-2020): Led CRM data migration to WorkDay. Events lead for The Belonging Project. | Google, Off-White, Telstra (2015-2019): National Telstra Retail Award winner. Google Specialist. Led events with 1,100+ attendees.",
+  edu:"Bachelor of Business (Marketing) | RMIT University | 2020"
+};
+
+var SUM={
+  csm:"Customer success and onboarding specialist with 7+ years turning messy, undefined situations into structured systems that drive adoption and retention. Led a full CRM overhaul (Dynamics 365) that lifted customer engagement by 34%, managed a portfolio of 25 partner accounts across 7 countries, and built repeatable onboarding processes from scratch in every role. The pattern is always the same: walk in, figure out what is actually broken, build something people use, and make it stick. Native English speaker with cross-cultural experience across Australia, Southeast Asia, and Europe. Based in Berlin.",
+  am:"Account and partnership manager with 7+ years of pipeline ownership, territory management, and consultative relationship building across education, healthcare, and retail. Managed 25 partner relationships across 7 countries with full Salesforce pipeline and $320k budget, delivering 140% YoY growth. Led a CRM overhaul that got the sales team to actually use the system (60% adoption increase). Walks into complex stakeholder environments and builds systems that generate results. Native English speaker based in Berlin.",
+  marketing:"Lifecycle marketing and CRM specialist with 7+ years bridging strategy and execution across B2B healthcare, higher education, and retail. Owned CRM lifecycle strategy in Dynamics 365 (segmentation, data hygiene, 34% engagement lift), ran content campaigns across 50k+ audiences, and managed community activations and event programming. Can own the automation, build the campaigns, and clean the data without needing a developer for every task. Native English speaker based in Berlin."
+};
+var SKL={
+  csm:["Customer Onboarding & Retention","CRM Overhaul & Adoption (Salesforce, Dynamics 365)","Portfolio & Account Management","Process Design from Scratch","Staff Training & Enablement","Cross-Functional Collaboration","Power BI & Customer Health Reporting","Stakeholder Management","AI & Automation"],
+  am:["Pipeline & Territory Management (Salesforce)","Partner & Account Relationship Management","Consultative Selling & Needs Discovery","Budget Ownership ($320k+)","CRM Strategy (Salesforce, Dynamics 365)","Event Coordination & Field Marketing","Cross-Cultural Stakeholder Management","Power BI & Data Analysis","AI & Automation"],
+  marketing:["CRM & Lifecycle Marketing (Dynamics 365, Mailchimp)","Marketing Automation & Segmentation","Content Strategy & Campaign Execution","Adobe Creative Suite, Canva & WordPress","Email Marketing (28% engagement lift)","Event Coordination & Community Activations","Data Hygiene & Reporting (Power BI, GA)","Stakeholder Management","AI & Automation"]
+};
+var ISUM={
+  csm:"Customer success and onboarding specialist with 7+ years turning chaos into structured, repeatable systems. Led a full CRM overhaul (Dynamics 365) that lifted customer engagement by 34% and drove 60% sales team adoption. Managed a portfolio of 25 partner accounts across 7 countries (Salesforce, HubSpot-ready). Built repeatable onboarding and training processes from scratch at every company. Experienced in customer health scoring, lifecycle management, and time-to-value optimisation. Native English speaker with cross-cultural experience across Australia, Southeast Asia, and Europe. Based in Berlin.",
+  am:"Account and partnership manager with 7+ years of territory ownership, pipeline management, and consultative selling across education, healthcare, and retail. Managed 25 partner relationships across 7 countries with full Salesforce pipeline, $320k budget, and 140% YoY growth. Led a CRM overhaul (Dynamics 365) that got the sales team to actually use the system. Experienced in QBRs, multi-stakeholder navigation, and bridging institutional relationships. Native English speaker based in Berlin.",
+  marketing:"Lifecycle marketing and CRM specialist with 7+ years owning both strategy and execution. Led CRM lifecycle in Dynamics 365 (segmentation, data hygiene, 34% engagement lift). Ran email campaigns across 50k+ audiences (Mailchimp, CSS-customised EDMs). Managed community activations, event programming, and social content (Instagram, LinkedIn). Proficient in Adobe Creative Suite, WordPress, Squarespace, Later, Sprout Social, Power BI, and GA4. Can own the full marketing operations stack without needing a developer. Native English speaker based in Berlin."
+};
+var ISKL={
+  csm:["Customer Onboarding, Retention & Health Scoring","CRM Overhaul & Adoption (Salesforce, Dynamics 365, HubSpot)","Portfolio Management (25 accounts, 7 countries)","Repeatable Process Design & Documentation","Staff Training & Enablement","Time-to-Value Optimisation","Cross-Functional Collaboration","Power BI & Customer Health Reporting","AI & Automation"],
+  am:["Territory & Pipeline Ownership (Salesforce)","Partner & Channel Management","Consultative Selling & Needs Discovery","Budget Ownership & Revenue Growth ($320k+)","QBR Facilitation & Stakeholder Navigation","CRM Strategy (Salesforce, Dynamics 365)","Event Coordination & Field Marketing","Power BI & Data Analysis","AI & Automation"],
+  marketing:["CRM & Lifecycle Marketing (Dynamics 365, Mailchimp)","Marketing Automation & Segmentation","Content Strategy & Multi-Channel Campaigns","Adobe Creative Suite, Canva, WordPress & Squarespace","Social Media (Instagram, LinkedIn) & Scheduling (Later, Sprout Social)","Email Marketing (CSS-customised EDMs, 28% lift)","Event Programming & Community Activations","Power BI, GA4 & Meta Business Suite","AI & Automation"]
+};var JOBS=[
+  {id:"eit",title:"Communications and Marketing Specialist (m/f/d)",co:"EIT RawMaterials",loc:"Berlin, Hybrid",ty:"Full-time",sal:"",posted:"Early Mar 2026",cat:"marketing",url:"https://eitrawmaterialsgmbh.teamtailor.com/jobs/7316031",de:false,fit:7,desc:"Communications and marketing within an EU innovation body for raw materials. 3-6 years in comms/marketing. Social media, content calendars, paid campaigns, event support.",reqs:["3-6 years marketing/comms","Social media management","Content creation","Adobe Creative Suite","CMS (WordPress)","Event coordination","English fluency"],match:["Content creation","Adobe Creative Suite","Event coordination","Social media","WordPress","RMIT education"],gaps:["CMS/Hootsuite","GA4/Meta Business Suite"],why:"Your marketing background, Adobe skills, content creation, and event coordination from RMIT and Google roles map directly. English-only, no German. Education background relevant.",is:8,imps:["Add WordPress and Squarespace under tools","Highlight event coordination","Mention campaign experience"]}
+];
+function go(v){window.APP_VIEW=v;render();}
+function render(){var h='';if(APP_VIEW=='home')h=home();else if(APP_VIEW=='list-all')h=list_all();else if(APP_VIEW=='detail')h=detail();document.getElementById('app').innerHTML=h;}
+function home(){return '<div class="hero fi"><div style="text-align:center;margin-bottom:20px">'+heroSvg+'</div><h1><span class="o">JAMES.</span>JOBS</h1><p>Portfolio of roles I'm suited for, with live job scraping from Berlin, London, and remote sources. Click a category to explore.</p></div><div class="stats"><div class="stat"><div class="stat-v">7+</div><div class="stat-l">Years</div></div><div class="stat"><div class="stat-v">25</div><div class="stat-l">Accounts</div></div><div class="stat"><div class="stat-v">3</div><div class="stat-l">Roles</div></div><div class="stat"><div class="stat-v">$320k</div><div class="stat-l">Budget</div></div></div><div class="cats">'+[
+    {n:"Customer Success",i:"✓",cat:"csm",p:"Onboarding, retention, and CRM systems"},
+    {n:"Account Management",i:"→",cat:"am",p:"Pipeline, territory, and partnerships"},
+    {n:"Marketing Ops",i:"◆",cat:"marketing",p:"Lifecycle, campaigns, and automation"}
+  ].map(c=>'<div class="cat fi" onclick="ROLE_CAT=\''+c.cat+'\';go(\'list-all\')" style="cursor:pointer"><div class="cat-n">'+c.i+'</div><h3>'+c.n+'</h3><p>'+c.p+'</p><div class="cat-ct">→ View matches</div></div>').join('')+'</div>'+'<div class="refresh-section"><div class="astro-perch"><img src="/astronaut.png" alt="Astronaut fishing" style="width:100%;height:100%;object-fit:contain;" /></div><div class="sea-surface"></div><button class="refresh-btn" id="refBtn" onclick="refreshJobs()"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M8 3v4l-2 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>REFRESH JOBS</button></div><div class="sea-depth"></div>';
+}
+function list_all(){var cat=ROLE_CAT||'csm',jobs=JOBS.filter(j=>j.cat==cat||!j.cat),h='<div class="view-hdr"><h2><span class="o">'+{csm:'Customer Success',am:'Account Manager',marketing:'Marketing'}[cat]+'</span></h2><button class="back" onclick="go(\'home\')">← Back</button></div>';if(!jobs.length)return h+'<p>No jobs match this category yet. Try refreshing.</p>';h+='<div class="jlist">'+jobs.map(j=>'<div class="jcard fi" onclick="JOB_ID=\''+j.id+'\';go(\'detail\')" style="cursor:pointer"><div class="fs fs-'+(j.fit<=5?'l':j.fit<=7?'m':'h')+'">'+j.fit+'</div><div class="ji"><h4>'+j.title+'</h4><div class="jm"><strong>'+j.co+'</strong> • '+j.loc+'</div><div class="jtags">'+j.match.map(m=>'<span class="tag tag-g">'+m+'</span>').join('')+'</div></div><div class="jarr">→</div></div>').join('')+'</div>';return h;
+}
+function detail(){var job=JOBS.find(j=>j.id==JOB_ID),cats={csm:SUM.csm,am:SUM.am,marketing:SUM.marketing},imp_map={csm:ISKL.csm,am:ISKL.am,marketing:ISKL.marketing};if(!job)return'<div class="view-hdr"><button class="back" onclick="go(\'list-all\')">← Back</button></div><p>Job not found</p>';var h='<div class="view-hdr"><h2>'+job.title+'</h2><button class="back" onclick="go(\'list-all\')">← Back</button></div><div class="dgrid"><div class="dmain"><div class="dsec fi"><h3>'+dia(16,0)+' Role</h3><p><strong>'+job.title+'</strong> at <strong>'+job.co+'</strong></p><p style="margin-top:8px;color:var(--txm);font-size:13px">'+job.loc+' • '+job.ty+' • '+job.posted+'</p><div style="margin-top:16px;padding-top:16px;border-top:1px solid var(--bd)"><a href="'+job.url+'" target="_blank" class="btn-p">View on '+job.source+'</a></div></div><div class="dsec fi"><h3>'+dia(16,1)+' Match Score: '+job.fit+'\/10</h3><div class="fov"><div class="fbig fs-m">'+job.fit+'<\/div><div class="ft"><h4>Strong fit for you</h4><p>'+job.why+'<\/p><\/div><\/div><div class="fbg"><div class="fbl"><span>Match</span><span>'+job.fit+'0%<\/span><\/div><div class="fbar"><div class="fbf fbf-'+(job.fit<=5?'l':job.fit<=7?'m':'h')+'" style="width:'+(job.fit*10)+'%"><\/div><\/div><\/div><\/div><div class="dsec fi"><h3>'+dia(16,2)+' Recommended improvements<\/h3><div class="imp"><h3>Strengthen your candidacy<\/h3><ul>'+job.imps.map(i=>'<li>'+i+'<\/li>').join('')+'<\/ul><\/div><\/div><\/div><div class="dside"><div class="dsec fi"><h3>'+dia(16,3)+' Requirements<\/h3><ul style="font-size:13px;color:var(--tx2);">'+job.reqs.map(r=>'<li>'+r+'<\/li>').join('')+'<\/ul><\/div><div class="dsec fi"><h3>Your strengths<\/h3><ul style="font-size:13px;color:var(--gn);">'+job.match.map(m=>'<li>✓ '+m+'<\/li>').join('')+'<\/ul><\/div><div class="dsec fi"><h3>Growth areas<\/h3><ul style="font-size:13px;color:var(--am);">'+job.gaps.map(g=>'<li>→ '+g+'<\/li>').join('')+'<\/ul><\/div><\/div><\/div>';return h;
+}
+async function refreshJobs(){var btn=document.getElementById('refBtn');btn.classList.add('loading');try{var res=await fetch('/api/scrape-jobs');var data=await res.json();JOBS=[...JOBS,...data.jobs];render();btn.classList.remove('loading');}catch(e){console.error(e);btn.classList.remove('loading');}}
+function fishInit(){var canvas=document.getElementById('fishCanvas'),ctx=canvas.getContext('2d'),fish=[],W=canvas.width=window.innerWidth,H=canvas.height=window.innerHeight;for(let i=0;i<3;i++)fish.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-0.5)*2,vy:(Math.random()-0.5)*2,r:Math.random()*0.3+0.7});function drawFish(f){ctx.save();ctx.translate(f.x,f.y);ctx.rotate(Math.atan2(f.vy,f.vx));ctx.fillStyle='rgba(255,85,0,0.6)';ctx.beginPath();ctx.ellipse(0,0,20*f.r,8*f.r,0,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.moveTo(20*f.r,0);ctx.lineTo(30*f.r,-5*f.r);ctx.lineTo(30*f.r,5*f.r);ctx.closePath();ctx.fill();ctx.restore();}function anim(){ctx.clearRect(0,0,W,H);fish.forEach(f=>{f.x+=f.vx;f.y+=f.vy;if(f.x<0||f.x>W)f.vx=-f.vx;if(f.y<0||f.y>H)f.vy=-f.vy;drawFish(f);});requestAnimationFrame(anim);}anim();}function startFishAnim(noNew){var overlay=document.getElementById('fishOverlay');overlay.classList.add('active');fishInit();setTimeout(()=>{overlay.classList.remove('active');},3000+Math.random()<0.3?2000:0);if(!noNew)JOBS=JOBS.filter((v,i)=>i<Math.floor(Math.random()*JOBS.length*0.5)+5),render(),setTimeout(()=>{var noNew=Math.random()<0.3;startFishAnim(noNew);},Math.random()*5000+3000);}
+window.APP_VIEW='home';window.ROLE_CAT='csm';window.JOB_ID='';render();
